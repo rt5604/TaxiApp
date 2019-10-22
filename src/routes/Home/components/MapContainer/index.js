@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {View} from 'native-base';
 import MapView from 'react-native-maps';
@@ -41,7 +42,7 @@ export const MapContainer = ({
             pinColor="green"
           />
         )}
-        {selectedDropOff && (
+        {selectedDropOff && selectedDropOff.latitude && selectedDropOff.longitude && (
           <MapView.Marker
             coordinate={{
               latitude: selectedDropOff.latitude,
@@ -51,7 +52,8 @@ export const MapContainer = ({
           />
         )}
 
-        {nearByDrivers && JSON.stringify(nearByDrivers) !== '[]' &&
+        {nearByDrivers &&
+          JSON.stringify(nearByDrivers) !== '[]' &&
           nearByDrivers.map((marker, index) => (
             <MapView.Marker
               key={index}
@@ -63,27 +65,21 @@ export const MapContainer = ({
             />
           ))}
       </MapView>
-	  {
-		  console.log('components/MapContainer:  End of MapView')
-	  }
+      {console.log('components/MapContainer:  End of MapView')}
       <SearchBox
         getInputData={getInputData}
         toggleSearchResultModal={toggleSearchResultModal}
         getAddressPredictions={getAddressPredictions}
         selectedAddress={selectedAddress}
       />
-	  {
-		  console.log('components/MapContainer:  End of SearchBox')
-	  }
+      {console.log('components/MapContainer:  End of SearchBox')}
       {(resultTypes.pickUp || resultTypes.dropOff) && (
         <SearchResults
           predictions={predictions}
           getSelectedAddress={getSelectedAddress}
         />
-	  )}
-	  {
-		  console.log('components/MapContainer:  End of SearchResults')
-	  }
+      )}
+      {console.log('components/MapContainer:  End of SearchResults')}
     </View>
   );
 };

@@ -104,6 +104,7 @@ export function getSelectedAddress(payload) {
     surge: 1,
   };
   return (dispatch, store) => {
+    console.log('HomeReducer: getSelectedAddress: payload = ', payload);
     RNGooglePlaces.lookUpPlaceByID(payload)
       .then(results => {
         dispatch({
@@ -138,11 +139,12 @@ export function getSelectedAddress(payload) {
               });
             });
         }
+        console.log('HomeReducer: getSelectedAddress: call setTimeout');
         setTimeout(function() {
           if (
             store().home.selectedAddress.selectedPickUp &&
             store().home.selectedAddress.selectedDropOff &&
-            store().home.distanceMatrix.rows[0].elements.length > 0
+            store().home.distanceMatrix.destination_addresses !== ''
           ) {
             let distanceMatrix = store().home.distanceMatrix;
             console.log('HomeReducer: getSelectedAddress: length=',distanceMatrix.rows[0].elements.length);
@@ -172,8 +174,14 @@ export function getSelectedAddress(payload) {
 export function bookCar() {
   return (dispatch, store) => {
     const nearByDrivers = store().home.nearByDrivers;
+    if (!nearByDrivers) {
+      console.log('nearByDrivers is not defined yet.');
+      return null;
+    }
+    console.log('HomeReducer:bookCar:nearByDrivers=', nearByDrivers);
     const nearByDriver =
       nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+
     const payload = {
       data: {
         userName: 'eman',
@@ -219,10 +227,11 @@ export function getNearByDrivers() {
     request
       .get('http://localhost:3000/api/driverLocation')
       .query({
-        latitude: 3.145909,
-        longitude: 101.696985,
+        latitude: 37.5407083,
+        longitude: 126.9461733,
       })
       .finish((error, res) => {
+        console.log('getNearByDrivers: error = ', error, 'res = ', res);
         if (res) {
           dispatch({
             type: GET_NEARBY_DRIVERS,
@@ -339,6 +348,7 @@ function handleGetDitanceMatrix(state, action) {
 }
 
 function handleGetFare(state, action) {
+  console.log('HomeReducer: handleGetFare: action=', action);
   return update(state, {
     fare: {
       $set: action.payload,
@@ -349,6 +359,7 @@ function handleGetFare(state, action) {
 //handle book car
 
 function handleBookCar(state, action) {
+  console.log('HomeReducer: handleBookCar: action=', action);
   return update(state, {
     booking: {
       $set: action.payload,
@@ -358,6 +369,7 @@ function handleBookCar(state, action) {
 
 //handle get nearby drivers
 function handleGetNearbyDrivers(state, action) {
+  console.log('HomeReducer: handleGetNearbyDrivers: action=', action);
   return update(state, {
     nearByDrivers: {
       $set: action.payload,
@@ -366,6 +378,7 @@ function handleGetNearbyDrivers(state, action) {
 }
 
 function handleBookingConfirmed(state, action) {
+  console.log('HomeReducer: handleBookingConfirmed: action=', action);
   return update(state, {
     booking: {
       $set: action.payload,

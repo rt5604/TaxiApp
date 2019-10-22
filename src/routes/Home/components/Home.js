@@ -12,6 +12,14 @@ import Fab from './Fab';
 import FindDriver from './FindDriver';
 const taxiLogo = require('../../../assets/img/taxi_logo_white.png');
 const carMarker = require('../../../assets/img/carMarker.png');
+
+class FindDriver2 extends React.Component {
+  render() {
+    console.log('FindDrive2: ', this.props.selectedAddress);
+    return <View />;
+  }
+}
+
 class Home extends React.Component {
   componentDidMount() {
     var rx = this;
@@ -23,10 +31,19 @@ class Home extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.booking.status === 'confirmed') {
+      console.log('-----------> call Actions.trackDriver');
       Actions.trackDriver({type: 'reset'});
     }
     // console.log('home:componentDidUpdate: call getCurrentLocaion');
     // this.props.getCurrentLocation();
+  }
+
+  onBook() {
+    console.log(
+      'components/Home:onBook: call bookCar() = ',
+      this.props.bookCar,
+    );
+    this.props.bookCar();
   }
 
   // 37.5407083,126.9461733 - 서울가든호텔웨딩홀
@@ -38,8 +55,14 @@ class Home extends React.Component {
       longitudeDelta: 0.0421,
     };
     const {status} = this.props.booking;
-    console.log('components/Home: render: latitude=', this.props.region.latitude, 
-        ',status=', status, ', toggleSearchResultModal = ', this.props.toggleSearchResultModal);
+    console.log(
+      'components/Home: render: latitude=',
+      this.props.region.latitude,
+      ',status=',
+      status,
+      ', toggleSearchResultModal = ',
+      this.props.toggleSearchResultModal,
+    );
     return (
       <Container>
         {(status !== 'pending' && (
@@ -61,12 +84,14 @@ class Home extends React.Component {
             )}
 
             {console.log('components/Home:SearchResults: call <Fab />')}
-            <Fab onPressAction={() => this.props.bookCar()} />
+            <Fab onPressAction={this.onBook.bind(this)} />
             {this.props.fare && <Fare fare={this.props.fare} />}
-            {console.log('components/Home:SearchResults: call <FooterComponent />')}
+            {console.log(
+              'components/Home:SearchResults: call <FooterComponent />',
+            )}
             <FooterComponent />
           </View>
-        )) || <FindDriver selectedAddress={this.props.selectedAddress} />}
+        )) || <FindDriver2 selectedAddress={this.props.selectedAddress} />}
         {console.log('components/Home:SearchResults: end of <Container />')}
       </Container>
     );

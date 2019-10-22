@@ -1,16 +1,16 @@
-import React from "react";
-import {Text} from "react-native";
-import { View, Button } from "native-base";
+import React from 'react';
+import {Text} from 'react-native';
+import {View, Button} from 'native-base';
 
-import styles from "./FabStyles.js";
+import styles from './FabStyles.js';
 
-export const Fab = ({onPressAction})=>{
-	return (
-		<Button style={styles.fabContainer} onPress={onPressAction}>
-			<Text style={styles.btnText}> Book </Text>
-		</Button>
+export const Fab = ({onPressAction}) => {
+  console.log('Fab: onPressAction = ', onPressAction);
+  return (
+    <Button style={styles.fabContainer} onPress={onPressAction}>
+      <Text style={styles.btnText}> Book </Text>
+    </Button>
+  );
+};
 
-	);
-}
-
-export default  Fab;
+export default Fab;

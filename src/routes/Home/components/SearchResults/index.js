@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {Text} from 'react-native';
 import {View, List, ListItem, Left, Body} from 'native-base';
@@ -8,7 +9,7 @@ import styles from './SearchResultsStyles.js';
 
 export const SearchResults = ({predictions, getSelectedAddress}) => {
   function handleSelectedAddress(placeID) {
-	console.log('SearchResults:handleSelectedAddress: placeID = ', placeID);
+	  console.log('SearchResults:handleSelectedAddress: placeID = ', placeID);
     getSelectedAddress(placeID);
   }
 
