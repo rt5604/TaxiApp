@@ -13,7 +13,7 @@ class TrackDriver extends React.Component {
     this.props.getCurrentLocation();
     this.props.getDriverInfo();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.driverLocation &&
       nextProps.driverLocation !== this.props.driverLocation

@@ -3,9 +3,9 @@ import React from 'react';
 import createStore from './store/createStore';
 import AppContainer from './AppContainer';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+//import Icon from 'react-native-vector-icons/FontAwesome';
 
-Icon.loadFont();
+//Icon.loadFont();
 
 export default class Root extends React.Component {
   renderApp() {

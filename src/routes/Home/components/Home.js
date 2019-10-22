@@ -15,6 +15,7 @@ const carMarker = require('../../../assets/img/carMarker.png');
 class Home extends React.Component {
   componentDidMount() {
     var rx = this;
+    console.log('home:componentDidMount: call getCurrentLocaion');
     this.props.getCurrentLocation();
     setTimeout(function() {
       rx.props.getNearByDrivers();
@@ -27,14 +28,16 @@ class Home extends React.Component {
     this.props.getCurrentLocation();
   }
 
+  // 37.5407083,126.9461733 - 서울가든호텔웨딩홀
   render() {
     const region = {
-      latitude: 37.5391807,
-      longitude: 126.9439792,
+      latitude: 37.5407083,
+      longitude: 126.9461733,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     };
     const {status} = this.props.booking;
+    console.log('Home: region=', region, ',status=', status);
     return (
       <Container>
         {(status !== 'pending' && (
