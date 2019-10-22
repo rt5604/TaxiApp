@@ -1,3 +1,4 @@
+// HomeReducer
 import update from 'react-addons-update';
 import constants from './actionConstants';
 import {Dimensions} from 'react-native';
@@ -33,10 +34,13 @@ const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
 //Actions
 //--------------------
 export function getCurrentLocation() {
-  console.log('home: getCurrentLocation');
+  // console.log('home: getCurrentLocation');
   return dispatch => {
     Geolocation.getCurrentPosition(
       position => {
+		// console.log('home: Geolocation.getCurrentPosition: position=', position);
+		//position.altitude = 37.5407083;
+		//position.longitude = 126.9461733;
         dispatch({
           type: GET_CURRENT_LOCATION,
           payload: position,
@@ -56,8 +60,10 @@ export function getInputData(payload) {
     payload,
   };
 }
+
 //toggle search result modal
 export function toggleSearchResultModal(payload) {
+  console.log('HomeReducer: toggleSearchResultModal = ', toggleSearchResultModal);
   return {
     type: TOGGLE_SEARCH_RESULT,
     payload,
@@ -67,21 +73,24 @@ export function toggleSearchResultModal(payload) {
 //GET ADRESSES FROM GOOGLE PLACE
 
 export function getAddressPredictions() {
-  console.log('home: getAddressPredictions:');
+  console.log('HomeReducer: getAddressPredictions:');
   return (dispatch, store) => {
     let userInput = store().home.resultTypes.pickUp
       ? store().home.inputData.pickUp
       : store().home.inputData.dropOff;
+    console.log('HomeReducer: getAddressPredictions: userInput = ', userInput);
     RNGooglePlaces.getAutocompletePredictions(userInput, {
       country: 'KR',
     })
       .then(results =>
+        console.log('results = ', results, ', dispatch = ', 
         dispatch({
           type: GET_ADDRESS_PREDICTIONS,
           payload: results,
         }),
+        )
       )
-      .catch(error => console.log(error.message));
+      .catch(error => console.log('getAddressPredictions: error=', error.message));
   };
 }
 
@@ -132,8 +141,12 @@ export function getSelectedAddress(payload) {
         setTimeout(function() {
           if (
             store().home.selectedAddress.selectedPickUp &&
-            store().home.selectedAddress.selectedDropOff
+            store().home.selectedAddress.selectedDropOff &&
+            store().home.distanceMatrix.rows[0].elements.length > 0
           ) {
+            let distanceMatrix = store().home.distanceMatrix;
+            console.log('HomeReducer: getSelectedAddress: length=',distanceMatrix.rows[0].elements.length);
+            console.log('HomeReducer: getSelectedAddress: distanceMatrix=',distanceMatrix);
             const fare = calculateFare(
               dummyNumbers.baseFare,
               dummyNumbers.timeRate,
@@ -142,6 +155,7 @@ export function getSelectedAddress(payload) {
               store().home.distanceMatrix.rows[0].elements[0].distance.value,
               dummyNumbers.surge,
             );
+            console.log('HomeReducer: getSelectedAddress: fare=',fare);
             dispatch({
               type: GET_FARE,
               payload: fare,
@@ -222,7 +236,7 @@ export function getNearByDrivers() {
 //Action Handlers
 //--------------------
 function handleGetCurrentLocation(state, action) {
-  console.log('home: handleGetCurrentLocation: lat=',action.payload.coords.latitude,',long=',action.payload.coords.longitude);
+  //console.log('home: handleGetCurrentLocation: lat=',action.payload.coords.latitude,',long=',action.payload.coords.longitude);
   return update(state, {
     region: {
       latitude: {
@@ -253,8 +267,9 @@ function handleGetInputDate(state, action) {
 }
 
 function handleToggleSearchResult(state, action) {
-  console.log('home: handleToggleSearchResult: action=', action);
+  console.log('HomeReducer: handleToggleSearchResult: action=', action);
   if (action.payload === 'pickUp') {
+	console.log('HomeReducer: handleToggleSearchResult: pickUp');
     return update(state, {
       resultTypes: {
         pickUp: {
@@ -378,7 +393,9 @@ const initialState = {
 };
 
 export function HomeReducer(state = initialState, action) {
+  console.log('HomeReducer: action = ', action);
   const handler = ACTION_HANDLERS[action.type];
+  console.log('HomeReducer: handler = ', handler);
 
   return handler ? handler(state, action) : state;
 }

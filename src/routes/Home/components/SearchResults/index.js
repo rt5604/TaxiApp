@@ -8,11 +8,15 @@ import styles from './SearchResultsStyles.js';
 
 export const SearchResults = ({predictions, getSelectedAddress}) => {
   function handleSelectedAddress(placeID) {
+	console.log('SearchResults:handleSelectedAddress: placeID = ', placeID);
     getSelectedAddress(placeID);
   }
 
   return (
     <View style={styles.searchResultsWrapper}>
+	  { console.log('SearchResults: predictions=', predictions) }
+	  { console.log('SearchResults: getSelectedAddress=', getSelectedAddress) }
+	  { JSON.stringify(predictions) !== '{}' &&
       <List
         dataArray={predictions}
         renderRow={item => (
@@ -32,6 +36,7 @@ export const SearchResults = ({predictions, getSelectedAddress}) => {
           </View>
         )}
       />
+	  }
     </View>
   );
 };

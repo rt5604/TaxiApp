@@ -4,11 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.google.android.libraries.places.api.Places;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -44,6 +46,9 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    if (!Places.isInitialized()) {
+        Places.initialize(getApplicationContext(), "AIzaSyBM5PoSvQr_jbDGtHk8qjc22NVMYg5wH9Q");
+    }
   }
 
   /**

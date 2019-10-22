@@ -36,8 +36,11 @@ target 'TaxiApp' do
 
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GooglePlaces'
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'TaxiAppTests' do
     inherit! :search_paths

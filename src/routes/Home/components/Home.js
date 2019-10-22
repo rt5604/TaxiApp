@@ -25,7 +25,8 @@ class Home extends React.Component {
     if (this.props.booking.status === 'confirmed') {
       Actions.trackDriver({type: 'reset'});
     }
-    this.props.getCurrentLocation();
+    // console.log('home:componentDidUpdate: call getCurrentLocaion');
+    // this.props.getCurrentLocation();
   }
 
   // 37.5407083,126.9461733 - 서울가든호텔웨딩홀
@@ -37,7 +38,8 @@ class Home extends React.Component {
       longitudeDelta: 0.0421,
     };
     const {status} = this.props.booking;
-    console.log('Home: region=', region, ',status=', status);
+    console.log('components/Home: render: latitude=', this.props.region.latitude, 
+        ',status=', status, ', toggleSearchResultModal = ', this.props.toggleSearchResultModal);
     return (
       <Container>
         {(status !== 'pending' && (
@@ -58,11 +60,14 @@ class Home extends React.Component {
               />
             )}
 
+            {console.log('components/Home:SearchResults: call <Fab />')}
             <Fab onPressAction={() => this.props.bookCar()} />
             {this.props.fare && <Fare fare={this.props.fare} />}
+            {console.log('components/Home:SearchResults: call <FooterComponent />')}
             <FooterComponent />
           </View>
         )) || <FindDriver selectedAddress={this.props.selectedAddress} />}
+        {console.log('components/Home:SearchResults: end of <Container />')}
       </Container>
     );
   }
