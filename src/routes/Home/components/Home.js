@@ -26,6 +26,7 @@ class Home extends React.Component {
     console.log('home:componentDidMount: call getCurrentLocaion');
     this.props.getCurrentLocation();
     setTimeout(function() {
+      console.log('home:componentDidMount: call getNearByDrivers()');
       rx.props.getNearByDrivers();
     }, 1000);
   }

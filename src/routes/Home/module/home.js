@@ -83,12 +83,10 @@ export function getAddressPredictions() {
       country: 'KR',
     })
       .then(results =>
-        console.log('results = ', results, ', dispatch = ', 
         dispatch({
           type: GET_ADDRESS_PREDICTIONS,
           payload: results,
         }),
-        )
       )
       .catch(error => console.log('getAddressPredictions: error=', error.message));
   };
@@ -141,12 +139,14 @@ export function getSelectedAddress(payload) {
         }
         console.log('HomeReducer: getSelectedAddress: call setTimeout');
         setTimeout(function() {
+          let distanceMatrix = store().home.distanceMatrix;
+          console.log('HomeReducer: distanceMatrix=', distanceMatrix);
           if (
             store().home.selectedAddress.selectedPickUp &&
             store().home.selectedAddress.selectedDropOff &&
-            store().home.distanceMatrix.destination_addresses !== ''
+            distanceMatrix.destination_addresses !== '' &&
+            distanceMatrix.rows[0].elements[0].status !== 'NOT_FOUND'
           ) {
-            let distanceMatrix = store().home.distanceMatrix;
             console.log('HomeReducer: getSelectedAddress: length=',distanceMatrix.rows[0].elements.length);
             console.log('HomeReducer: getSelectedAddress: distanceMatrix=',distanceMatrix);
             const fare = calculateFare(
@@ -223,6 +223,7 @@ export function bookCar() {
 //get nearby drivers
 
 export function getNearByDrivers() {
+  console.log('HomeReducer: getNearByDrivers()');
   return (dispatch, store) => {
     request
       .get('http://localhost:3000/api/driverLocation')
@@ -406,7 +407,7 @@ const initialState = {
 };
 
 export function HomeReducer(state = initialState, action) {
-  console.log('HomeReducer: action = ', action);
+  // console.log('HomeReducer: action = ', action);
   const handler = ACTION_HANDLERS[action.type];
   console.log('HomeReducer: handler = ', handler);
 

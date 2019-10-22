@@ -175,7 +175,7 @@ const initialState = {
 };
 
 export function TrackDriverReducer(state = initialState, action) {
-  console.log('TrackDriverReducer: action=', action);
+  // console.log('TrackDriverReducer: action=', action);
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

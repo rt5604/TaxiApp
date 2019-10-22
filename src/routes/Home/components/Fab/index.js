@@ -9,6 +9,7 @@ export const Fab = ({onPressAction}) => {
   return (
     <Button style={styles.fabContainer} onPress={onPressAction}>
       <Text style={styles.btnText}> Book </Text>
+      { console.log('Fab: after Text') }
     </Button>
   );
 };

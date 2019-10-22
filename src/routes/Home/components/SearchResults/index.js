@@ -15,7 +15,7 @@ export const SearchResults = ({predictions, getSelectedAddress}) => {
 
   return (
     <View style={styles.searchResultsWrapper}>
-	  { console.log('SearchResults: predictions=', predictions) }
+	  { /* console.log('SearchResults: predictions=', predictions) */ }
 	  { console.log('SearchResults: getSelectedAddress=', getSelectedAddress) }
 	  { JSON.stringify(predictions) !== '{}' &&
       <List

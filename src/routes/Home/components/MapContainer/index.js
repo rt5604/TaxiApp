@@ -22,10 +22,10 @@ export const MapContainer = ({
 }) => {
   const {selectedPickUp, selectedDropOff} = selectedAddress || {};
 
-  console.log('components/MapContainer:  selectedAddress = ', selectedAddress);
-  console.log('components/MapContainer:  selectedPickUp = ', selectedPickUp);
-  console.log('components/MapContainer:  selectedDropOff = ', selectedDropOff);
-  console.log('components/MapContainer:  nearByDrivers = ', nearByDrivers);
+  //console.log('components/MapContainer:  selectedAddress = ', selectedAddress);
+  //console.log('components/MapContainer:  selectedPickUp = ', selectedPickUp);
+  //console.log('components/MapContainer:  selectedDropOff = ', selectedDropOff);
+  //console.log('components/MapContainer:  nearByDrivers = ', nearByDrivers);
 
   return (
     <View style={styles.container}>
