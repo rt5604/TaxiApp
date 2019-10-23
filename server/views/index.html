@@ -7,7 +7,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
   <body>
-  <h1>Driver Test</h1>
+  <h1>Driver Test/Server</h1>
 
   <div class="container">
     <div class="row">
@@ -96,38 +96,36 @@
 
         socket.on("trackDriver", function(location){
             var driverMovement = [{
-                    lat:3.113667,
-                    long:101.687565
+                    // 서울숲 37.5417932,127.0420528
+                    lat: 37.5417932,
+                    long: 127.0420528
                 },
                 {
-                    lat:3.118748,
-                    long:101.678467
+                    // 서울역 37.5536109,126.9674255,
+                    lat: 37.5536109,
+                    long: 126.9674255
 
                 },
                 {
-                    lat:3.127270,
-                    long:101.688423
+                    // 마포역 37.5397092,126.943846
+                    lat: 37.5397092,
+                    long: 126.943846
 
                 },
                 {
-                    lat:3.137383,
-                    long:101.695118
+                    // 용산역 37.5398288,126.8758174   
+                    lat: 37.5398288,
+                    long: 126.8758174
                 },
                 {
-                    lat:3.137383,
-                    long:101.695118
+                    // 서울대학교 호암교수회관 37.4679118,126.9567246
+                    lat: 37.4679118,
+                    long: 126.9567246
                 },
                 {
-                    lat:3.152857,
-                    long:101.703529
-                },
-                {
-                    lat:3.146642,
-                    long:101.695845
-                },
-                {
-                    lat:3.1591601,
-                    long:101.7136599
+                    // 광화문역 37.5710242,126.975336
+                    lat: 37.5710242,
+                    long: 126.975336
             }];
             var index = 0;
             var interval = setInterval(function(){

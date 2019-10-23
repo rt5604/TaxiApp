@@ -209,7 +209,7 @@ export function bookCar() {
     };
 
     request
-      .post('http://localhost:3000/api/bookings')
+      .post('http://192.168.0.41:3000/api/bookings')
       .send(payload)
       .finish((error, res) => {
         dispatch({
@@ -226,18 +226,21 @@ export function getNearByDrivers() {
   console.log('HomeReducer: getNearByDrivers()');
   return (dispatch, store) => {
     request
-      .get('http://localhost:3000/api/driverLocation')
+      .get('http://192.168.0.41:3000/api/driverLocation')
       .query({
         latitude: 37.5407083,
         longitude: 126.9461733,
       })
       .finish((error, res) => {
-        console.log('getNearByDrivers: error = ', error, 'res = ', res);
         if (res) {
+          console.log('getNearByDrivers: res = ', res);
           dispatch({
             type: GET_NEARBY_DRIVERS,
             payload: res.body,
           });
+        }
+        else {
+          console.log('getNearByDrivers: error = ', error);
         }
       });
   };

@@ -13,13 +13,6 @@ import FindDriver from './FindDriver';
 const taxiLogo = require('../../../assets/img/taxi_logo_white.png');
 const carMarker = require('../../../assets/img/carMarker.png');
 
-class FindDriver2 extends React.Component {
-  render() {
-    console.log('FindDrive2: ', this.props.selectedAddress);
-    return <View />;
-  }
-}
-
 class Home extends React.Component {
   componentDidMount() {
     var rx = this;
@@ -92,7 +85,7 @@ class Home extends React.Component {
             )}
             <FooterComponent />
           </View>
-        )) || <FindDriver2 selectedAddress={this.props.selectedAddress} />}
+        )) || <FindDriver selectedAddress={this.props.selectedAddress} />}
         {console.log('components/Home:SearchResults: end of <Container />')}
       </Container>
     );

@@ -49,7 +49,7 @@ export function getDriverInfo() {
   return (dispatch, store) => {
     let id = store().home.booking.driverId;
     request
-      .get('http://localhost:3000/api/driver/' + id)
+      .get('http://192.168.0.41:3000/api/driver/' + id)
       .finish((erroe, res) => {
         dispatch({
           type: GET_DRIVER_INFORMATION,
@@ -64,7 +64,7 @@ export function getDriverLocation() {
   return (dispatch, store) => {
     let id = store().home.booking.driverId;
     request
-      .get('http://localhost:3000/api/driverLocation/' + id)
+      .get('http://192.168.0.41:3000/api/driverLocation/' + id)
       .finish((erroe, res) => {
         dispatch({
           type: GET_DRIVER_LOCATION,

@@ -13,6 +13,7 @@ class TrackDriver extends React.Component {
     this.props.getCurrentLocation();
     this.props.getDriverInfo();
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.driverLocation &&
@@ -29,6 +30,8 @@ class TrackDriver extends React.Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     };
+
+    console.log('TrackDriver: ENTER');
     return (
       <Container>
         <View style={{flex: 1}}>
