@@ -112,6 +112,9 @@ export function getSelectedAddress(payload) {
       })
       .then(() => {
         //Get the distance and time
+        let selectedAddress = store().home.selectedAddress;
+        console.log('HomeReducer: getSelectedAddress: selectedPickUp=', selectedAddress.selectedPickUp);
+        console.log('HomeReducer: getSelectedAddress: selectedDropOff=', selectedAddress.selectedDropOff);
         if (
           store().home.selectedAddress.selectedPickUp &&
           store().home.selectedAddress.selectedDropOff
@@ -120,13 +123,13 @@ export function getSelectedAddress(payload) {
             .get('https://maps.googleapis.com/maps/api/distancematrix/json')
             .query({
               origins:
-                store().home.selectedAddress.selectedPickUp.latitude +
+                store().home.selectedAddress.selectedPickUp.location.latitude +
                 ',' +
-                store().home.selectedAddress.selectedPickUp.longitude,
+                store().home.selectedAddress.selectedPickUp.location.longitude,
               destinations:
-                store().home.selectedAddress.selectedDropOff.latitude +
+                store().home.selectedAddress.selectedDropOff.location.latitude +
                 ',' +
-                store().home.selectedAddress.selectedDropOff.longitude,
+                store().home.selectedAddress.selectedDropOff.location.longitude,
               mode: 'driving',
               key: 'AIzaSyBM5PoSvQr_jbDGtHk8qjc22NVMYg5wH9Q',
             })
@@ -145,11 +148,12 @@ export function getSelectedAddress(payload) {
             store().home.selectedAddress.selectedPickUp &&
             store().home.selectedAddress.selectedDropOff &&
             distanceMatrix.destination_addresses !== '' &&
-            distanceMatrix.rows[0].elements[0].status !== 'NOT_FOUND'
+            distanceMatrix.rows[0].elements[0].status !== 'NOT_FOUND' &&
+            distanceMatrix.rows[0].elements[0].status !== 'ZERO_RESULTS'
           ) {
             console.log('HomeReducer: getSelectedAddress: length=',distanceMatrix.rows[0].elements.length);
             console.log('HomeReducer: getSelectedAddress: distanceMatrix=',distanceMatrix);
-            const fare = calculateFare(
+            var fare = calculateFare(
               dummyNumbers.baseFare,
               dummyNumbers.timeRate,
               store().home.distanceMatrix.rows[0].elements[0].duration.value,
@@ -158,6 +162,10 @@ export function getSelectedAddress(payload) {
               dummyNumbers.surge,
             );
             console.log('HomeReducer: getSelectedAddress: fare=',fare);
+            if (fare == 0) {
+              fare = 1.0;
+              console.log('HomeReducer: getSelectedAddress: Due to 0 fare, change to new fare=', fare);
+            }
             dispatch({
               type: GET_FARE,
               payload: fare,
@@ -188,14 +196,14 @@ export function bookCar() {
         pickUp: {
           address: store().home.selectedAddress.selectedPickUp.address,
           name: store().home.selectedAddress.selectedPickUp.name,
-          latitude: store().home.selectedAddress.selectedPickUp.latitude,
-          longitude: store().home.selectedAddress.selectedPickUp.latitude,
+          latitude: store().home.selectedAddress.selectedPickUp.location.latitude,
+          longitude: store().home.selectedAddress.selectedPickUp.location.latitude,
         },
         dropOff: {
           address: store().home.selectedAddress.selectedDropOff.address,
           name: store().home.selectedAddress.selectedDropOff.name,
-          latitude: store().home.selectedAddress.selectedDropOff.latitude,
-          longitude: store().home.selectedAddress.selectedDropOff.latitude,
+          latitude: store().home.selectedAddress.selectedDropOff.location.latitude,
+          longitude: store().home.selectedAddress.selectedDropOff.location.latitude,
         },
         fare: store().home.fare,
         status: 'pending',
@@ -412,7 +420,8 @@ const initialState = {
 export function HomeReducer(state = initialState, action) {
   // console.log('HomeReducer: action = ', action);
   const handler = ACTION_HANDLERS[action.type];
-  console.log('HomeReducer: handler = ', handler);
+  
+  handler && console.log('HomeReducer: handler = ', handler);
 
   return handler ? handler(state, action) : state;
 }

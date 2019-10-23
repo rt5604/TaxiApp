@@ -108,8 +108,14 @@ router.put('/driverLocation/:id', function(req, res, next) {
             function(error, updatedLocation) {
               if (error) {
                 res.send(error);
-              }
-              res.send(updatedLocation);
+			  }
+			  else {
+				updatedLocation.coordinate.coordinates[0] = 126.94604;
+				updatedLocation.coordinate.coordinates[1] = 37.5397050;
+			  }
+			  res.send(updatedLocation);
+			  console.log('driverLocation: ', updatedLocation);
+
               io.emit('action', {
                 type: 'UPDATE_DRIVER_LOCATION',
                 payload: updatedLocation,

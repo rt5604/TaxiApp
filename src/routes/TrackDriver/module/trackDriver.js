@@ -78,13 +78,15 @@ export function getDriverLocation() {
 export function getDistanceFromDriver() {
   return (dispatch, store) => {
     if (store().trackDriver.driverLocation) {
+      let driverLocation = store().trackDriver.driverLocation;
+      console.log('TrackDriverReducer: driverLocation=', driverLocation);
       request
         .get('https://maps.googleapis.com/maps/api/distancematrix/json')
         .query({
           origins:
-            store().home.selectedAddress.selectedPickUp.latitude +
+            store().home.selectedAddress.selectedPickUp.location.latitude +
             ',' +
-            store().home.selectedAddress.selectedPickUp.longitude,
+            store().home.selectedAddress.selectedPickUp.location.longitude,
           destinations:
             store().trackDriver.driverLocation.coordinate.coordinates[1] +
             ',' +
@@ -93,6 +95,7 @@ export function getDistanceFromDriver() {
           key: 'AIzaSyBM5PoSvQr_jbDGtHk8qjc22NVMYg5wH9Q',
         })
         .finish((error, res) => {
+          console.log('TrackDriverReducer: finish: res=', res);
           dispatch({
             type: GET_DISTANCE_FROM_DRIVER,
             payload: res.body,
@@ -134,6 +137,7 @@ function handleGetDriverInfo(state, action) {
 }
 
 function handleUpdateDriverLocation(state, action) {
+  console.log('TrackDriverReducer: handleUpdateDriverLocation: action=', action);
   return update(state, {
     driverLocation: {
       $set: action.payload,
@@ -142,6 +146,7 @@ function handleUpdateDriverLocation(state, action) {
 }
 
 function handleGetDriverLocation(state, action) {
+  console.log('TrackDriverReducer: handleGetDriverLocation; action=', action);
   return update(state, {
     driverLocation: {
       $set: action.payload,
@@ -177,6 +182,8 @@ const initialState = {
 export function TrackDriverReducer(state = initialState, action) {
   // console.log('TrackDriverReducer: action=', action);
   const handler = ACTION_HANDLERS[action.type];
+
+  handler && console.log('TrackDriverReducer: handler=', handler);
 
   return handler ? handler(state, action) : state;
 }

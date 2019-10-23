@@ -33,20 +33,20 @@ export const MapContainer = ({
         provider={MapView.PROVIDER_GOOGLE}
         style={styles.map}
         region={region}>
-        {selectedPickUp && selectedPickUp.latitude && selectedPickUp.longitude && (
+        {selectedPickUp && selectedPickUp.location.latitude && selectedPickUp.location.longitude && (
           <MapView.Marker
             coordinate={{
-              latitude: selectedPickUp.latitude,
-              longitude: selectedPickUp.longitude,
+              latitude: selectedPickUp.location.latitude,
+              longitude: selectedPickUp.location.longitude,
             }}
             pinColor="green"
           />
         )}
-        {selectedDropOff && selectedDropOff.latitude && selectedDropOff.longitude && (
+        {selectedDropOff && selectedDropOff.location.latitude && selectedDropOff.location.longitude && (
           <MapView.Marker
             coordinate={{
-              latitude: selectedDropOff.latitude,
-              longitude: selectedDropOff.longitude,
+              latitude: selectedDropOff.location.latitude,
+              longitude: selectedDropOff.location.longitude,
             }}
             pinColor="blue"
           />

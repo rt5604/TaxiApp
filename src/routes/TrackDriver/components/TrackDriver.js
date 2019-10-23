@@ -8,6 +8,7 @@ import DriverFound from './DriverFound';
 import DriverFooterProfile from './DriverFooterProfile';
 import DriverOnTheWayFooter from './DriverOnTheWayFooter';
 const carMarker = require('../../../assets/img/carMarker.png');
+
 class TrackDriver extends React.Component {
   componentDidMount() {
     this.props.getCurrentLocation();
@@ -19,6 +20,7 @@ class TrackDriver extends React.Component {
       this.props.driverLocation &&
       nextProps.driverLocation !== this.props.driverLocation
     ) {
+      console.log('TrackDriver:UNSAFE_componentWillReceiveProps: call getDistanceFromDriver');
       this.props.getDistanceFromDriver();
     }
   }
